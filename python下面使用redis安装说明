@@ -1,0 +1,43 @@
+第一步：
+pip install celery[redis]  #此方式会把匹配的redis一起安装，如果要分开安装为：pip install celery==4.4.2 pip install redis==3.4.1
+
+第二步：
+新建app.py
+
+from tasks import add
+
+if __name__=="__main__":
+    print("start.....")
+    # task1.add.apply_async(2,3)
+    result = add.delay(2,3)   #这种方式跟上面一样，上面那种可以设定比较多
+    #task2.multiply.delay(5,6)
+    print("end.....")
+    print(result)
+
+
+新建 tasks.py
+
+import time
+from celery import Celery
+
+broker = "redis://127.0.0.1:6379/1"
+backend = "redis://127.0.0.1:6379/2"
+app = Celery("my_task",broker=broker,backend=backend)
+
+@app.task
+def add(x,y):
+    print("runfunc....")
+    time.sleep(20)
+    return x+y
+    
+第三步：启动worker
+注意：tasks为任务文件存在地方，如果要启动worker一定要加载到有带tasks的文件，否则无法正常执行
+当然也可以配置CELERY_IMPORTS={}引入也可以。
+(venv) D:\mmm\deom03>celery worker -A tasks -l INFO -P eventlet
+
+第四：
+运行py文件，python manage.py app.py
+
+
+
+
