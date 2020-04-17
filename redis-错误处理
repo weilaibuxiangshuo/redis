@@ -21,6 +21,15 @@ ValueError: not enough values to unpack (expected 3, got 0)
 然后，再启worker里需要加 -P eventlet
 例：(venv) D:\mmm\deom03>celery worker -A celery_app -l INFO -P eventlet
 
+第四：
+    from kombu.async.timer import Entry, Timer as Schedule, to_timestamp, logger
 
+解决：
+降低python==3.68  就可以
 
+第五：
+AttributeError: 'str' object has no attribute 'items'
+
+解决：
+降低redis==2.10.6 就可以
 
