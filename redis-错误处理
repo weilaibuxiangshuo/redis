@@ -1,0 +1,26 @@
+第一：
+ModuleNotFoundError: No module named 'celery_app.task1celery_app'，任务后面有加celery_app
+
+解决：
+请检查CELERY_IMPORTS={}中格式是否有问题，引入task之间是否缺少逗号
+
+第二：
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+Traceback (most recent call last):
+File "c:\program files (x86)\python37-32\lib\site-packages\celery\worker\consumer\consumer.py", line 558, in on_task_received
+strategy = strategies[type_]
+
+解决：
+请检查引入任务模块中是否书写正确，格式为：ECERY_IMPORTS={"",""}，不可以缺少ECERY_
+
+第三：
+ValueError: not enough values to unpack (expected 3, got 0)
+
+解决：
+一般是windows下使用celery才会出现，需要安装pip install eventlet
+然后，再启worker里需要加 -P eventlet
+例：(venv) D:\mmm\deom03>celery worker -A celery_app -l INFO -P eventlet
+
+
+
+
