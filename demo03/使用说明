@@ -1,0 +1,11 @@
+第一步：先启动beat定时任务(定时任务会向worker发送任务，让worker执行，如果不启动worker不会执行)
+
+(venv) D:\mmm\deom03>celery beat -A celery_app -l INFO
+
+第二步：启动worker(windows下要带-P evenlet ，linux，不用带)（执行beat发送来的任务）
+
+(venv) D:\mmm\deom03>celery worker -A celery_app -l INFO -P eventlet
+
+第三步：
+
+python manage.py app.py 
